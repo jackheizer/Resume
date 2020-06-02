@@ -1,0 +1,12 @@
+syntax: glob
+.DS_Store
+*.swp
+*.swo
+*~
+.\#*
+
+*.log
+*.aux
+*.pdf
+*.out
+*synctex.gz
