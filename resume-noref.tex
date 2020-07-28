@@ -1,0 +1,42 @@
+% !TEX TS-program = luatex
+% Awesome Source CV LaTeX Template
+%
+% This template has been downloaded from:
+% https://github.com/darwiin/awesome-neue-latex-cv
+%
+% Author:
+% Christophe Roger (Darwiin)
+%
+% Template license:
+% CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+
+%\documentclass{yaar-another-awesome-resume}
+\documentclass{personal-resume}
+
+\name{John}{Heizer}
+\tagline{Embedded Firmware Engineer}
+\socialinfo{
+  \email{jack.heizer@gmail.com}
+  \smartphone{(970) 412-5756}
+  \address{10650 Durango Place}{Longmont, CO 80504}
+  %\github{jackheizer}
+}
+
+% Uncomment the following line and use a value from 1.5cm to 2.5cm
+%\setleftcolumnlength{1.5cm}
+
+%\usepackage{lua-visual-debug}
+
+\begin{document}
+
+  \makecvheader
+  
+  %\makecvfooter{}{}{\thepage}
+
+  %\input{section_headline}
+  \input{section_competences}\bigskip
+  \input{section_education}
+  \input{section_experience}
+  %\input{section_references}
+
+\end{document}
