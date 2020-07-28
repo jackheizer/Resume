@@ -1,66 +1,16 @@
-%% Copyright 2016 Christophe Roger
-%
-% Author:
-% Christophe Roger (Darwiin)
-%
-% This work may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either version 1.3c
-% of this license or (at your option) any later version.
-% The latest version of this license is in
-%   http://www.latex-project.org/lppl.txt
-% and version 1.3 or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
-%
-% This work has the LPPL maintenance status `maintained'.
-%
-% The Current Maintainer of this work is M. C. Roger.
-%
-% This work consists of the files awesome-source-cv.cls
-
-\ProvidesClass{yaac-another-awesome-cv}[2020/03/24  v2.2.1 'YAAC: Another Awesome CV' Class]
+\ProvidesClass{personal-resume}[2020/07/25  v1.0.0 'Personal Resume' Class]
 
 \def\@@ptsize{10pt}
-
-\DeclareOption{10pt}{\def\@@ptsize{10pt}}
-\DeclareOption{11pt}{\def\@@ptsize{11pt}}
-\DeclareOption{12pt}{\def\@@ptsize{12pt}}
 
 \ProcessOptions\relax
 
 \LoadClass[a4paper,\@@ptsize]{article}
 
 \newif\if@showLinks   \@showLinksfalse
-\newif\if@isCompact   \@isCompactfalse
-
-\DeclareOption{green}{
-  \def\@green{green}
-}
-
-\DeclareOption{red}{
-  \def\@red{red}
-}
-
-\DeclareOption{indigo}{
-  \def\@indigo{indigo}
-}
-\DeclareOption{orange}{
-  \def\@orange{orange}
-}
 
 \DeclareOption{monochrome}{
   \def\@monochrome{monochrome}
 }
-
-\DeclareOption{localFont}{
-  \def\@local{local}
-}
-
-\DeclareOption{alternative}{
-  \def\@alternative{alternate}
-}
-
-\DeclareOption{showLinks}{ \@showLinkstrue}
-\DeclareOption{compact}{ \@isCompacttrue}
 
 \ProcessOptions
 
@@ -84,30 +34,14 @@
 \RequirePackage[skins]{tcolorbox}
 \RequirePackage{fancyhdr}
 \RequirePackage{ifthen}
+\RequirePackage{calc}
 
 
 \DeclareUnicodeCharacter{00E9}{\'{e}}
 % Define default accent colors
-\definecolor{basecolor}{HTML}{000066}       %BLUE
-
-\ifundef{\@green} {
-  \ifundef{\@red} {
-    \ifundef{\@indigo}{
-      \ifundef{\@orange} {
-        \ifundef{\@monochrome} {}
-        { \definecolor{basecolor}{HTML}{000000}}
-      }
-      { \definecolor{basecolor}{HTML}{e68a00} }
-    }
-    { \definecolor{basecolor}{rgb}{0.2, 0.07, 0.48} }
-  }
-  { \definecolor{basecolor}{HTML}{b30000} }     %RED
-}
-{ \definecolor{basecolor}{rgb}{0.0, 0.62, 0.38} }
-
-\definecolor{darkGrey}{HTML}{989898}
-
-\colorlet{linkcolor}{basecolor}
+\definecolor{darkgrey}{HTML}{989898}
+\definecolor{coboltblue}{RGB}{0, 71, 171}
+\colorlet{linkcolor}{coboltblue}
 \colorlet{accentcolor}{linkcolor!90}
 \colorlet{symbolcolor}{linkcolor!85}
 
@@ -133,9 +67,6 @@
 %\fancyfoot[C]{\thepage}
 \pagestyle{fancy}
 
-%\pagestyle{empty}                         % non-numbered pages
-%\font\fb=''[cmr10]''                      % for use with \LaTeX command
-
 % Setup CV sections
 \titleformat{\section}{\Large\raggedright}{}{0em}{}[\titlerule]
 \titlespacing{\section}{0pt}{2pt}{2pt}
@@ -151,41 +82,26 @@
 \hyphenation{im-pre-se}
 
 % Setup fonts
-\defaultfontfeatures{Mapping=tex-text}
+\defaultfontfeatures{Ligatures=TeX}
 %
 
-% Define font to use according to localFont option
-\ifundef{\@local}
-{
-  %\setmainfont[BoldFont = Helvetica Neue, ItalicFont=Helvetica Neue Thin Italic ,SmallCapsFont = Helvetica Neue Light]{Helvetica Neue Thin}
-  \setmainfont{Source Sans Pro Light}[
-    BoldFont = SourceSansPro-Regular,
-    ItalicFont= Source Sans Pro Light Italic]
-}
-{
-  \setmainfont{SourceSansPro-Light}[
-    Path = fonts/,
-    BoldFont = SourceSansPro-Regular,
-    ItalicFont = SourceSansPro-LightIt]
-}
-
-%New length definition
-\newlength{\fulllength}
-\setlength{\fulllength}{17.8cm}
+\setmainfont{SourceSansPro-Light}[
+  Path = fonts/,
+  BoldFont = SourceSansPro-Regular,
+  ItalicFont = SourceSansPro-LightIt
+]
 
 \newlength{\leftcolumnlength}
-\setlength{\leftcolumnlength}{2.5cm}
+\setlength{\leftcolumnlength}{1.5cm}
 
 \newlength{\rightcolumnlength}
-%\setlength{\rightcolumnlength}{15.3cm minus 1cm}
-%\setlength{\rightcolumnlength}{\dimexpr(\fulllength-\leftcolumnlength)\relax}
-\setlength{\rightcolumnlength}{\dimexpr(\fulllength-\leftcolumnlength)\relax}
+\setlength{\rightcolumnlength}{\dimexpr(\textwidth-\leftcolumnlength-\Gm@lmargin)\relax}
 
 % Override default left column length of (2.5cm)
 % Usage: \setleftcolumnlength{<length>}
 \newcommand{\setleftcolumnlength}[1]{
   \setlength{\leftcolumnlength}{#1}
-  \setlength{\rightcolumnlength}{\dimexpr(\fulllength-\leftcolumnlength)\relax}
+  \setlength{\rightcolumnlength}{\dimexpr(\textwidth-\leftcolumnlength-\Gm@lmargin)\relax}
 }
 
 % Font Awesome icons aliases
@@ -195,6 +111,7 @@
 \newcommand{\linkedinSymbol}{\faLinkedinIn}
 \newcommand{\viadeoSymbol}{\faViadeo}
 \newcommand{\mobileSymbol}{\faMobile*}
+\newcommand{\phoneSymbol}{\faPhone}
 \newcommand{\githubSymbol}{\faGithub}
 \newcommand{\stackoverflowSymbol}{\faStackOverflow}
 \newcommand{\stackexchangeSymbol}{\faStackExchange}
@@ -209,7 +126,7 @@
 % Create a tag
 % Usage: \cvtag{<tag label>}
 \newcommand{\cvtag}[1]{%
-  \tikz[baseline]\node[anchor=base,draw=darkGrey!70,rounded corners=0.5ex,inner xsep=1ex,inner ysep =0.55ex,text height=1.3ex,text depth=.25ex]{#1};
+  \tikz[baseline]\node[anchor=base,draw=darkgrey!70,rounded corners=0.5ex,inner xsep=1ex,inner ysep =0.55ex,text height=1.3ex,text depth=.25ex]{#1};
 }
 
 % Render author's name
@@ -218,11 +135,11 @@
 
 % Render a text with its symbol
 % Usage; \socialtext{<icon>}{<label>}
-\newcommand{\socialtext}[2]{\mbox{\textcolor{symbolcolor}{#1}#2\hspace{0.8em}}}
+\newcommand{\socialtext}[2]{\item[\textcolor{symbolcolor}{#1}]#2}
 
 % Render a link with its symbol
 % Usage; \sociallink{<icon>}{<label>}
-\newcommand{\sociallink}[3]{\mbox{\textcolor{symbolcolor}{#1}\link{#2}{#3}\hspace{0.8em}}}
+\newcommand{\sociallink}[3]{\item[\textcolor{symbolcolor}{#1}]\link{#2}{#3}}
 
 % Define author's name
 % Usage: \name{<firstname>}{<lastname>}
@@ -246,7 +163,7 @@
 
 % Render author's address
 % Usage: \address{<address>}
-\newcommand*{\address}[1]{\socialtext{\locationSymbol}{#1}}
+\newcommand*{\address}[2]{\socialtext{\locationSymbol}{#1\\#2}}
 
 % Render author's infos
 % Usage: \infos{<infos>}
@@ -255,10 +172,6 @@
 % Render author's linked-in (optional)
 % Usage: \linkedin{<linked-in-nick>}
 \newcommand*{\linkedin}[1]{\sociallink{\linkedinSymbol}{http://www.linkedin.com/in/#1/fr}{linkedin.com/in/#1}}
-
-% Render author's viadeo(optional)
-% Usage: \viadeo{<viadeo-nick>}
-\newcommand*{\viadeo}[1]{\sociallink{\viadeoSymbol}{http://www.viadeo.com/fr/profile/#1}{viadeo.com/fr/profile/#1}}
 
 % Render author's github (optional)
 % Usage: \github{<github-nick>}
@@ -292,78 +205,32 @@
 % Usage: \smartphone{<mobile phone number>}
 \newcommand*\smartphone[1]{\socialtext{\mobileSymbol}{#1}}
 
+\newcommand*\phone[1]{\socialtext{\phoneSymbol}{#1}}
+
 % Render author's tagline
-\newcommand\resumetitle[1]{
-  \ifundef{\@alternative}{
-	 \par{
-	 	 \bigskip\center{\Large \color{accentcolor}\textbf{#1}\color{Black}}\par
-	 }
-	 \bigskip
-  }{
-    \color{accentcolor}\textbf{\large{#1}}\color{black}
-  }
-}
-
-\newcommand\idphoto{
-	\ifthenelse{\equal{\@photoshape}{square}}{
-		% Draw square photo
-		\tikz\path[fill overzoom image={\@photo}]rectangle(\linewidth,\linewidth);
-	}{
-		\ifthenelse{\equal{\@photoshape}{roundedsquare}}{
-			% Draw square photo with rounded corners
-			\tikz\path[fill overzoom image={\@photo}][rounded corners=2mm]rectangle(\linewidth,\linewidth);
-		}{
-			\ifthenelse{\equal{\@photoshape}{squircle}}{
-				% Draw squircle photo
-				\tikz\path[fill overzoom image={\@photo}][rounded corners=8mm]rectangle(\linewidth,\linewidth);
-				}{
-					% Draw circular photo
-					\tikz\path[fill overzoom image={\@photo}]circle[radius=0.5\linewidth];
-				}
-		}
-
-	}
-}
+\newcommand\resumetitle[1]{\color{accentcolor}\textbf{\large{#1}}\color{black}}
 
 % Define social entries to print in header
-\newcommand{\socialinfo}[1]{\def\@socialinfo{#1}}
+\newcommand{\socialinfo}[1]{\def\@socialinfo{\null\hfill%
+  % Well... this needs to be fixed
+  \parbox{\widthof{\mailSymbol\hspace{1em}\small{jack.heizer@gmail.com}}}{
+    \begin{itemize}[]
+      #1
+    \end{itemize}
+  }
+}}
 
 % Render CV header
 % Needs \@firstname, \@lastname and \@tagline to be defined
 \newcommand*{\makecvheader}{
-  \ifundef{\@alternative}{
-    \ifundef{\@photodiameter}{
-      \begin{minipage}{\linewidth}
-    }{
-      \begin{minipage}{\dimexpr\linewidth-\@photodiameter-2em}
-    }
-    \color{accentcolor}\user{\@firstname}{\@lastname}\color{black}\\
-    \small{\@socialinfo}
-    \end{minipage}
-    \ifdef{\@photodiameter}{
-      \begin{minipage}{\@photodiameter}
-        \idphoto
-      \end{minipage}
-    }{}
-    \resumetitle{\@tagline}
-  }{
-    \ifundef{\@photodiameter}{
-      \begin{minipage}{\linewidth}
-    }{
-      \begin{minipage}{\dimexpr\linewidth-\@photodiameter-2em}
-    }
+  \begin{minipage}[t]{0.5\textwidth}
     \user{\@firstname}{\@lastname}\\
     \resumetitle{\@tagline}
-    \smallskip\\
+  \end{minipage}%
+  \begin{minipage}[t]{0.5\textwidth}
     \small{\@socialinfo}
-    \end{minipage}
-    \ifdef{\@photodiameter}{
-      \begin{minipage}{\@photodiameter}
-        \idphoto
-      \end{minipage}
-    }{}
-    \bigskip
-  }
+  \end{minipage}
+  \bigskip
 }
 
 % Define a footer for CV
@@ -398,15 +265,19 @@
 
 % Define the 'scholarship' environment
 \newenvironment{scholarship}{%
-  \begin{tabular}{Y p{\rightcolumnlength}}
+  \begin{longtable}{R{\leftcolumnlength}|E}
 }{%
-  \end{tabular}
+  \end{longtable}
 }
 
-% Render a scholarshipentry in the scolarship environment
-% Usage: \scholarshipentry{<date>}{<description>}
-\newcommand\scholarshipentry[2]{
-  #1    &  #2 \\
+% Usage: \scholarshipentry{<graduation date>}{degree}{school}{location}
+%                                         { details }
+\newcommand\scholarshipentry[5]{
+  \small{\textbf{\textsc{Graduated}}} & \textbf{#2\hfill#4}\\*
+  \small{\textbf{#1}} & \textbf{\textsc{#3}}\smallskip\\*
+                   & \begin{minipage}[t]{\rightcolumnlength}
+                        #5
+                      \end{minipage}\\*
 }
 
 % Define the 'skills' environment
@@ -439,12 +310,13 @@
 %                      <Experience description (Could be a list)>
 %                    }
 %                    {<Technology list>}
-\newcommand\experience[7]{
-  \textbf{#1}    & \textbf{#2, \textsc{#3}, #4}   								\\*
-  \textbf{#5}    & \begin{minipage}[t]{\rightcolumnlength}
+ \newcommand\experience[7]{
+    \small{\textbf{#1}}     & \textbf{#2\hfill#4}\\*
+    \small{\textbf{#5}}    & \textbf{\textsc{#3}}\smallskip\\*
+                      & \begin{minipage}[t]{\rightcolumnlength}
   					         #6
-                   \end{minipage}										\\*
-                 & \footnotesize{\foreach \n in {#7}{\cvtag{\n}}} 	\\
+                   \end{minipage}\\*
+                 & \footnotesize{\foreach \n in {#7}{\cvtag{\n}}}\\*
   }
 
 % Render a consultant experience in the experiences environment
@@ -465,12 +337,7 @@
                  & \footnotesize{\foreach \n in {#9}{\cvtag{\n}}} 	\\
   }
 
-% Define the empty separator macro with different spacing according to document class option 'compact'
-\if@isCompact
-  \newcommand\emptySeparator{\multicolumn{2}{c}{}\\[-0.6em]}
-\else
-  \newcommand\emptySeparator{\multicolumn{2}{c}{}\\}
-\fi
+\newcommand\emptySeparator{\multicolumn{2}{c}{}\\[-0.6em]}
 
 
 
@@ -500,33 +367,37 @@
 
 
 \newcommand*\twocolumnsection[2]{
-  \begin{minipage}[t]{\dimexpr(\linewidth/2) - 3em}
+  \begin{minipage}[t]{\dimexpr(\linewidth/2) - 1em}
     #1
   \end{minipage}
   \hfill
-  \begin{minipage}[t]{\dimexpr(\linewidth/2) - 3em}
+  \begin{minipage}[t]{\dimexpr(\linewidth/2) - 1em}
     #2
   \end{minipage}
   }
 
 % Define the 'referencees' environment
 \newenvironment{referees}{%
+  \medskip\noindent\mbox{}%\hfill%
 }{%
-  \hfill
-  \bigskip
+  \mbox{}%
 }
 
 \newcommand*\referee[5]{
   \hspace{1em}
-  \begin{minipage}[t]{\dimexpr(\linewidth/3) - 3em}
-    \begin{tabular}{>{}l >{}l}
-      \multicolumn{2}{l}{\textbf{#1}}\\
-      \multicolumn{2}{l}{\emph{#2}, \textsc{#3}}\\
-      \quad \mailSymbol & \href{mailto:#4}{#4} \\
-      \quad \faPhone & #5 \\
-    \end{tabular}
+  \begin{minipage}[t]{\dimexpr(\linewidth/3 - 1em)}%
+    \textbf{#1}\\%
+    \textbf{#2}\\%
+    \textbf{\textsc{#3}}\smallskip%
+    \begin{itemize}
+      \small{
+        \email{#4}%
+        \phone{#5}%
+      }
+    \end{itemize}
   \end{minipage}%
-  }
+  %\hfill%
+}
 
 \newcommand*\refereeMailOnly[4]{
   \hspace{1em}
